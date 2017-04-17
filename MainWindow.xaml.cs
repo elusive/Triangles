@@ -30,6 +30,9 @@ namespace Triangles
             var t = new TriangleGeometry(Model.RowEntered + 1, Model.ColumnEntered + 1);
 
             Model.PathData = t.GetPathData();
+            Model.PointV1 = t.RightAnglePoint.ToString(CultureInfo.InvariantCulture);
+            Model.PointV2 = t.StartingPoint.ToString(CultureInfo.InvariantCulture);
+            Model.PointV3 = t.EndingPoint.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
