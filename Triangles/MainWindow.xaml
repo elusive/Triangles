@@ -1,0 +1,209 @@
+﻿<Window x:Class="Triangles.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Triangles"
+        Width="525"
+        Height="350"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <!--  COLORS  -->
+        <SolidColorBrush x:Key="TitleBrush" Color="CornflowerBlue" />
+        <SolidColorBrush x:Key="ValueBrush" Color="SlateGray" />
+
+
+        <Style x:Key="TitleLabelStyle" TargetType="Label">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="TextBlock.FontSize" Value="24" />
+            <Setter Property="TextBlock.FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{StaticResource TitleBrush}" />
+        </Style>
+
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="TextBlock.FontSize" Value="18" />
+        </Style>
+
+        <Style x:Key="ValueStyle" TargetType="ComboBox">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="MinWidth" Value="60" />
+            <Setter Property="MaxWidth" Value="90" />
+            <Setter Property="TextElement.FontSize" Value="16" />
+            <Setter Property="TextElement.Foreground" Value="{StaticResource ValueBrush}" />
+        </Style>
+
+        <Style x:Key="TextValueStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="MinWidth" Value="40" />
+            <Setter Property="MaxWidth" Value="60" />
+            <Setter Property="TextElement.FontSize" Value="16" />
+            <Setter Property="TextElement.Foreground" Value="{StaticResource ValueBrush}" />
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <!--  Title Row  -->
+        <Label Grid.Row="0"
+               Content="Triangle Geometry"
+               Style="{StaticResource TitleLabelStyle}" />
+
+
+        <!--  Description Row  -->
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <TextBlock Margin="4" TextWrapping="Wrap">
+                This is a simple application that generates triangles in a Canvas element.
+                The canvas is 60 px by 60px and each triangle is a right triangle with 10px
+                sides.  Entering a row and column will generate the trianges in those positions.
+            </TextBlock>
+        </StackPanel>
+
+
+        <!--  Selection Form Row  -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0"
+                   Content="Row: "
+                   Style="{StaticResource LabelStyle}" />
+            <ComboBox Grid.Column="1"
+                      SelectedIndex="{Binding Path=Model.RowEntered}"
+                      Style="{StaticResource ValueStyle}">
+                <ComboBoxItem>A</ComboBoxItem>
+                <ComboBoxItem>B</ComboBoxItem>
+                <ComboBoxItem>C</ComboBoxItem>
+                <ComboBoxItem>D</ComboBoxItem>
+                <ComboBoxItem>E</ComboBoxItem>
+                <ComboBoxItem>F</ComboBoxItem>
+            </ComboBox>
+
+            <Label Grid.Column="2"
+                   Content="Column: "
+                   Style="{StaticResource LabelStyle}" />
+            <ComboBox Grid.Column="3"
+                      SelectedIndex="{Binding Model.ColumnEntered}"
+                      Style="{StaticResource ValueStyle}">
+                <ComboBoxItem>1</ComboBoxItem>
+                <ComboBoxItem>2</ComboBoxItem>
+                <ComboBoxItem>3</ComboBoxItem>
+                <ComboBoxItem>4</ComboBoxItem>
+                <ComboBoxItem>5</ComboBoxItem>
+                <ComboBoxItem>6</ComboBoxItem>
+                <ComboBoxItem>7</ComboBoxItem>
+                <ComboBoxItem>8</ComboBoxItem>
+                <ComboBoxItem>9</ComboBoxItem>
+                <ComboBoxItem>10</ComboBoxItem>
+                <ComboBoxItem>11</ComboBoxItem>
+                <ComboBoxItem>12</ComboBoxItem>
+            </ComboBox>
+
+            <Button x:Name="MainWindowGenerateTrianglesButton"
+                    Grid.Column="4"
+                    Margin="4"
+                    Click="MainWindow_GenerateTrianglesButton_OnClick"
+                    Content="Generate Triangles" />
+        </Grid>
+
+
+        <!--  Rendering Row  -->
+        <Border Grid.Row="3"
+                MinWidth="62"
+                MinHeight="62"
+                MaxWidth="62"
+                MaxHeight="62"
+                Margin="0"
+                BorderBrush="DimGray"
+                BorderThickness="1">
+            <Canvas x:Name="MainWindowTriangleCanvas"
+                    MinWidth="60"
+                    MinHeight="60"
+                    MaxWidth="60"
+                    MaxHeight="60"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <Path Data="{Binding Model.PathData}"
+                      Fill="LightSteelBlue"
+                      Stroke="Black"
+                      StrokeThickness="1" />
+
+            </Canvas>
+        </Border>
+
+
+        <!--  Vertices Calculator Row  -->
+        <Grid Grid.Row="4" Margin="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="6">
+                <TextBlock TextWrapping="Wrap">
+                    This calculator essentially does the reverse,
+                    enter the points of the triangle and it will calculate the row and column.
+                </TextBlock>
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0"
+                       Content="V1 (rt):"
+                       Style="{StaticResource LabelStyle}" />
+                <TextBox Grid.Column="1"
+                         Style="{StaticResource TextValueStyle}"
+                         Text="{Binding Model.PointV1}" />
+
+                <Label Grid.Column="2"
+                       Content="V2:"
+                       Style="{StaticResource LabelStyle}" />
+                <TextBox Grid.Column="3"
+                         Style="{StaticResource TextValueStyle}"
+                         Text="{Binding Model.PointV2}" />
+
+                <Label Grid.Column="4"
+                       Content="V3:"
+                       Style="{StaticResource LabelStyle}" />
+                <TextBox Grid.Column="5"
+                         Style="{StaticResource TextValueStyle}"
+                         Text="{Binding Model.PointV3}" />
+
+                <Button x:Name="MainWindowReverseCalculateButton"
+                        Grid.Column="6"
+                        Margin="4"
+                        Click="MainWindowReverseCalculateButton_OnClick"
+                        Content="Calculate Row/Col" />
+
+                <Label Grid.Column="7"
+                       Content="{Binding Model.Answer}"
+                       Style="{StaticResource LabelStyle}"
+                       TextElement.Foreground="Red" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
